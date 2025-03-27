@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gerenciamento de Veículos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="login-screen" class="login-container">
+        <div class="login-box">
+            <h1><i class="fas fa-car"></i> Sistema de Veículos</h1>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn">Entrar</button>
+            </form>
+            <p class="version">Versão 2.0 - PWA</p>
+        </div>
+    </div>
+
+    <!-- Sistema Principal (inicialmente oculto) -->
+    <div id="app-container" class="container" style="display:none;">
+        <!-- [O conteúdo anterior permanece aqui, sem alterações] -->
+        
+        <!-- Nova seção de Relatórios -->
+        <section id="relatorios" class="content-section">
+            <h2><i class="fas fa-chart-bar"></i> Relatórios e Estatísticas</h2>
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3>Veículos por Marca</h3>
+                    <canvas id="marca-chart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Distribuição por Ano</h3>
+                    <canvas id="ano-chart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Cadastros Mensais</h3>
+                    <canvas id="cadastro-chart"></canvas>
+                </div>
+            </div>
+            
+            <div class="export-buttons">
+                <button id="export-json" class="btn"><i class="fas fa-file-code"></i> Exportar JSON</button>
+                <button id="export-csv" class="btn"><i class="fas fa-file-csv"></i> Exportar CSV</button>
+                <button id="export-pdf" class="btn"><i class="fas fa-file-pdf"></i> Gerar PDF</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal de Foto -->
+    <div id="foto-modal" class="modal">
+        <div class="modal-content foto-modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Foto do Veículo</h2>
+            <div class="foto-preview-container">
+                <img id="foto-preview" src="" alt="Pré-visualização da foto">
+                <div id="sem-foto" class="sem-foto-placeholder">
+                    <i class="fas fa-car"></i>
+                    <p>Nenhuma foto selecionada</p>
+                </div>
+            </div>
+            <div class="foto-actions">
+                <input type="file" id="foto-input" accept="image/*" capture="environment">
+                <label for="foto-input" class="btn foto-btn"><i class="fas fa-camera"></i> Tirar/Enviar Foto</label>
+                <button id="remover-foto" class="btn btn-danger"><i class="fas fa-trash"></i> Remover Foto</button>
+                <button id="confirmar-foto" class="btn btn-primary"><i class="fas fa-check"></i> Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- [Os outros modais permanecem aqui] -->
+
+    <script src="script.js"></script>
+    <script src="app.js"></script>
+    <script src="manifest.js"></script>
+</body>
+</html>
