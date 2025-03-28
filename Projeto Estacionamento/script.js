@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Elementos do DOM
+
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     const showRegister = document.getElementById('show-register');
     const showLogin = document.getElementById('show-login');
     
-    // Alternar entre formulários
     showRegister.addEventListener('click', function(e) {
         e.preventDefault();
         loginForm.classList.remove('active-form');
@@ -17,11 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
         registerForm.classList.remove('active-form');
         loginForm.classList.add('active-form');
     });
-    
-    // Armazenamento de usuários (simulando banco de dados)
+
     let users = JSON.parse(localStorage.getItem('users')) || [];
-    
-    // Cadastro de novo usuário
+
     registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -29,8 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('register-email').value.trim();
         const password = document.getElementById('register-password').value;
         const confirmPassword = document.getElementById('register-confirm').value;
-        
-        // Validações
+
         if (password !== confirmPassword) {
             showError('register-confirm', 'As senhas não coincidem');
             return;
@@ -40,13 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
             showError('register-email', 'Este email já está cadastrado');
             return;
         }
-        
-        // Criar novo usuário
+
         const newUser = {
             id: Date.now().toString(),
             name,
             email,
-            password, // Em aplicações reais, usar bcrypt para hash
+            password,
             createdAt: new Date().toISOString()
         };
         
@@ -58,8 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         registerForm.classList.remove('active-form');
         loginForm.classList.add('active-form');
     });
-    
-    // Login
+
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -69,24 +63,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const user = users.find(u => u.email === email && u.password === password);
         
         if (user) {
-            // Salvar usuário logado na sessão
+
             sessionStorage.setItem('currentUser', JSON.stringify(user));
             
-            // Redirecionar para dashboard
             window.location.href = 'dashboard.html';
         } else {
             showError('login-password', 'Email ou senha incorretos');
         }
     });
-    
-    // Mostrar mensagem de erro
+
     function showError(inputId, message) {
         const input = document.getElementById(inputId);
         const errorElement = document.createElement('div');
         errorElement.className = 'error-message';
         errorElement.textContent = message;
-        
-        // Remove mensagens de erro anteriores
+
         const existingError = input.parentNode.querySelector('.error-message');
         if (existingError) {
             existingError.remove();
@@ -94,8 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         input.parentNode.appendChild(errorElement);
         errorElement.style.display = 'block';
-        
-        // Destacar campo com erro
+
         input.style.borderColor = '#e74c3c';
         setTimeout(() => {
             input.style.borderColor = '#ddd';
