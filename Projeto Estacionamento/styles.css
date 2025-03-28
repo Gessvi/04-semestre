@@ -98,7 +98,6 @@ h2 {
     color: #3498db;
 }
 
-/* Botão */
 .btn {
     width: 100%;
     padding: 12px;
@@ -153,7 +152,6 @@ h2 {
     }
 }
 
-/* Estilos para as seções do dashboard */
 .content-section {
     display: none;
 }
