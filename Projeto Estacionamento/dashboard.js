@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const vehicleModal = document.getElementById('vehicle-modal');
     const addVehicleBtn = document.getElementById('add-vehicle');
     const closeModalBtn = document.querySelector('.close-modal');
-    
-    // Abrir modal para adicionar veículo
+
     addVehicleBtn.addEventListener('click', function() {
         document.getElementById('modal-title').textContent = 'Adicionar Novo Veículo';
         document.getElementById('vehicle-id').value = '';
@@ -58,8 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const brand = document.getElementById('vehicle-brand').value;
         const model = document.getElementById('vehicle-model').value;
         const year = document.getElementById('vehicle-year').value;
-        
-        // Validação
+
         if (!plate || !brand || !model || !year) {
             alert('Por favor, preencha todos os campos.');
             return;
@@ -449,6 +447,5 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'index.html';
     });
 
-    // Inicializar
     loadDashboardData();
 });
