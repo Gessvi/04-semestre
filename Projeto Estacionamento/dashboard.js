@@ -1,21 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Verificar se o usuário está logado
+   
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!currentUser) {
         window.location.href = 'index.html';
         return;
     }
     
-    // Exibir nome do usuário
+    
     document.getElementById('user-name').textContent = currentUser.name;
     
-    // Logout
+    
     document.getElementById('logout-btn').addEventListener('click', function() {
         sessionStorage.removeItem('currentUser');
         window.location.href = 'index.html';
     });
     
-    // Sistema de Veículos
+   
     let vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
     const vehicleForm = document.getElementById('vehicle-form');
     const vehicleModal = document.getElementById('vehicle-modal');
@@ -30,19 +30,16 @@ document.addEventListener('DOMContentLoaded', function() {
         vehicleModal.style.display = 'flex';
     });
     
-    // Fechar modal
     closeModalBtn.addEventListener('click', function() {
         vehicleModal.style.display = 'none';
     });
     
-    // Fechar modal ao clicar fora
     window.addEventListener('click', function(e) {
         if (e.target === vehicleModal) {
             vehicleModal.style.display = 'none';
         }
     });
     
-    // Formatar placa automaticamente
     document.getElementById('vehicle-plate').addEventListener('input', function(e) {
         let value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
         
@@ -53,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.target.value = value;
     });
     
-    // Salvar veículo
     vehicleForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -74,15 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Criar ou atualizar veículo
         if (id) {
-            // Atualizar
             const index = vehicles.findIndex(v => v.id === id);
             if (index !== -1) {
                 vehicles[index] = { id, plate, brand, model, year };
             }
         } else {
-            // Criar novo
+
             const newVehicle = {
                 id: Date.now().toString(),
                 plate,
@@ -95,20 +89,13 @@ document.addEventListener('DOMContentLoaded', function() {
             vehicles.push(newVehicle);
         }
         
-        // Salvar no localStorage
         localStorage.setItem('vehicles', JSON.stringify(vehicles));
-        
-        // Atualizar tabela
         renderVehicleTable();
-        
-        // Fechar modal
+
         vehicleModal.style.display = 'none';
-        
-        // Mostrar mensagem
         alert(`Veículo ${id ? 'atualizado' : 'cadastrado'} com sucesso!`);
     });
     
-    // Renderizar tabela de veículos
     function renderVehicleTable(filteredVehicles = vehicles) {
         const tbody = document.querySelector('#vehicle-table tbody');
         tbody.innerHTML = '';
@@ -139,15 +126,13 @@ document.addEventListener('DOMContentLoaded', function() {
             tbody.appendChild(tr);
         });
         
-        // Adicionar eventos aos botões de editar
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const vehicleId = this.getAttribute('data-id');
                 editVehicle(vehicleId);
             });
         });
-        
-        // Adicionar eventos aos botões de excluir
+
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const vehicleId = this.getAttribute('data-id');
@@ -155,8 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
-    // Editar veículo
+
     function editVehicle(vehicleId) {
         const vehicle = vehicles.find(v => v.id === vehicleId);
         if (!vehicle) return;
@@ -170,8 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         vehicleModal.style.display = 'flex';
     }
-    
-    // Excluir veículo
+
     function deleteVehicle(vehicleId) {
         if (!confirm('Tem certeza que deseja excluir este veículo?')) {
             return;
@@ -182,8 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
         renderVehicleTable();
         alert('Veículo excluído com sucesso!');
     }
-    
-    // Filtros
+
     document.getElementById('search-vehicle').addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase();
         filterVehicles(searchTerm);
@@ -201,33 +183,28 @@ document.addEventListener('DOMContentLoaded', function() {
         
         renderVehicleTable(filtered);
     }
-    
-    // Popular filtros de marca e ano
+
     function populateFilters() {
         const brandSelect = document.getElementById('filter-brand');
         const yearSelect = document.getElementById('filter-year');
-        
-        // Obter marcas e anos únicos
+
         const brands = [...new Set(vehicles.map(v => v.brand))].sort();
         const years = [...new Set(vehicles.map(v => v.year))].sort((a, b) => b - a);
-        
-        // Popular marcas
+
         brands.forEach(brand => {
             const option = document.createElement('option');
             option.value = brand;
             option.textContent = brand;
             brandSelect.appendChild(option);
         });
-        
-        // Popular anos
+
         years.forEach(year => {
             const option = document.createElement('option');
             option.value = year;
             option.textContent = year;
             yearSelect.appendChild(option);
         });
-        
-        // Aplicar filtros
+
         brandSelect.addEventListener('change', function() {
             applyFilters();
         });
@@ -257,52 +234,42 @@ document.addEventListener('DOMContentLoaded', function() {
         
         renderVehicleTable(filtered);
     }
-    
-    // Inicializar
+
     renderVehicleTable();
     populateFilters();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Verificar autenticação
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!currentUser) {
         window.location.href = 'index.html';
         return;
     }
 
-    // Elementos do DOM
     const sidebarLinks = document.querySelectorAll('.sidebar-nav li');
     const contentSections = document.querySelectorAll('.content-section');
     const logoutBtn = document.getElementById('logout-btn');
     const currentUserElement = document.getElementById('current-user');
 
-    // Mostrar nome do usuário
     if (currentUserElement) {
         currentUserElement.textContent = currentUser.name;
     }
 
-    // Navegação no sidebar
     sidebarLinks.forEach(link => {
         link.addEventListener('click', function() {
             const sectionId = this.getAttribute('data-section');
-            
-            // Remover classe active de todos os links e seções
+
             sidebarLinks.forEach(item => item.classList.remove('active'));
             contentSections.forEach(section => section.classList.remove('active'));
-            
-            // Adicionar classe active ao link clicado
+  
             this.classList.add('active');
-            
-            // Mostrar seção correspondente
+
             document.getElementById(`${sectionId}-section`).classList.add('active');
-            
-            // Carregar dados específicos da seção
+
             loadSectionData(sectionId);
         });
     });
 
-    // Carregar dados da seção
     function loadSectionData(sectionId) {
         switch(sectionId) {
             case 'dashboard':
@@ -320,16 +287,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Funções para carregar dados de cada seção
     function loadDashboardData() {
         console.log("Carregando dados do dashboard...");
-        // Implementar lógica para carregar dados do dashboard
         updateDashboardStats();
     }
 
     function loadVehiclesData() {
         console.log("Carregando dados de veículos...");
-        // Já implementado no vehicles.js
     }
 
     function loadUsersData() {
@@ -373,7 +337,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
 
-        // Adicionar eventos aos botões de usuários
         document.getElementById('add-user')?.addEventListener('click', showUserForm);
         document.querySelectorAll('.btn-edit-user').forEach(btn => {
             btn.addEventListener('click', (e) => editUser(e.target.getAttribute('data-id')));
@@ -410,20 +373,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button id="export-excel" class="btn"><i class="fas fa-file-excel"></i> Exportar Excel</button>
             </div>
         `;
-
-        // Renderizar gráficos
         renderCharts();
     }
 
-    // Funções auxiliares para usuários
     function showUserForm() {
         console.log("Mostrar formulário de usuário");
-        // Implementar modal para adicionar/editar usuários
     }
 
     function editUser(userId) {
         console.log("Editar usuário:", userId);
-        // Implementar edição de usuário
     }
 
     function deleteUser(userId) {
@@ -435,11 +393,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Funções auxiliares para relatórios
     function renderCharts() {
         const vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
         
-        // Gráfico de marcas
         const brands = {};
         vehicles.forEach(vehicle => {
             brands[vehicle.brand] = (brands[vehicle.brand] || 0) + 1;
@@ -456,8 +412,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }]
             }
         });
-
-        // Gráfico de anos
         const years = {};
         vehicles.forEach(vehicle => {
             years[vehicle.year] = (years[vehicle.year] || 0) + 1;
@@ -477,8 +431,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    // Atualizar estatísticas do dashboard
     function updateDashboardStats() {
         const vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
         const users = JSON.parse(localStorage.getItem('users')) || [];
@@ -492,8 +444,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('newest-vehicle').textContent = Math.max(...years);
         }
     }
-
-    // Logout
     logoutBtn.addEventListener('click', function() {
         sessionStorage.removeItem('currentUser');
         window.location.href = 'index.html';
