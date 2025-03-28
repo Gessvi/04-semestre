@@ -1,12 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Verificar autenticação
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!currentUser) {
         window.location.href = 'index.html';
         return;
     }
 
-    // Elementos do DOM
     const usersTable = document.getElementById('users-table');
     const addUserBtn = document.getElementById('add-user');
     const userModal = document.getElementById('user-modal');
@@ -15,16 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const logoutBtn = document.getElementById('logout-btn');
     const currentUserElement = document.getElementById('current-user');
 
-    // Mostrar usuário atual
     if (currentUserElement) {
         currentUserElement.textContent = currentUser.name;
     }
 
-    // Carregar usuários
     let users = JSON.parse(localStorage.getItem('users')) || [];
     renderUsersTable();
 
-    // Abrir modal para adicionar usuário
     addUserBtn.addEventListener('click', function() {
         document.getElementById('modal-user-title').textContent = 'Adicionar Usuário';
         document.getElementById('user-id').value = '';
@@ -32,12 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
         userModal.style.display = 'flex';
     });
 
-    // Fechar modal
     closeModalBtn.addEventListener('click', function() {
         userModal.style.display = 'none';
     });
 
-    // Salvar usuário
     userForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -47,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('user-password').value;
         const confirmPassword = document.getElementById('user-confirm-password').value;
 
-        // Validações
         if (!name || !email) {
             alert('Preencha todos os campos obrigatórios!');
             return;
@@ -63,15 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Verificar email único
         if (users.some(u => u.email === email && u.id !== userId)) {
             alert('Este email já está cadastrado!');
             return;
         }
 
-        // Criar ou atualizar usuário
         if (userId) {
-            // Atualizar
             const index = users.findIndex(u => u.id === userId);
             if (index !== -1) {
                 users[index].name = name;
@@ -81,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         } else {
-            // Criar novo
             const newUser = {
                 id: Date.now().toString(),
                 name,
@@ -92,17 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
             users.push(newUser);
         }
 
-        // Salvar no localStorage
         localStorage.setItem('users', JSON.stringify(users));
 
-        // Atualizar tabela
         renderUsersTable();
 
-        // Fechar modal
         userModal.style.display = 'none';
     });
 
-    // Renderizar tabela de usuários
     function renderUsersTable() {
         const tbody = usersTable.querySelector('tbody');
         tbody.innerHTML = '';
@@ -123,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
             tbody.appendChild(tr);
         });
 
-        // Adicionar eventos aos botões
         document.querySelectorAll('.btn-edit').forEach(btn => {
             btn.addEventListener('click', function() {
                 const userId = this.getAttribute('data-id');
@@ -139,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Editar usuário
     function editUser(userId) {
         const user = users.find(u => u.id === userId);
         if (!user) return;
@@ -154,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
         userModal.style.display = 'flex';
     }
 
-    // Excluir usuário
     function deleteUser(userId) {
         if (!confirm('Tem certeza que deseja excluir este usuário?')) return;
 
@@ -163,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
         renderUsersTable();
     }
 
-    // Logout
     logoutBtn.addEventListener('click', function() {
         sessionStorage.removeItem('currentUser');
         window.location.href = 'index.html';
