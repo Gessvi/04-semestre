@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Sistema de Gestão</title>
+    <link rel="stylesheet" href="styles1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-car"></i> Controle de Veículos</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-car"></i> Veículos</a></li>
+                    <li><a href="usuarios.html"><i class="fas fa-users"></i> Usuários</a></li>
+                    <li class="active"><a href="relatorios.html"><i class="fas fa-chart-bar"></i> Relatórios</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </aside>
+
+        <!-- Conteúdo específico de relatórios -->
+        <main class="main-content">
+            <header class="main-header">
+                <h3>Relatórios do Sistema</h3>
+                <div class="user-info">
+                    <span id="current-user"></span>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="section-header">
+                    <h4><i class="fas fa-chart-bar"></i> Dados Estatísticos</h4>
+                    <div class="report-period">
+                        <label for="report-start">Período:</label>
+                        <input type="date" id="report-start">
+                        <span>até</span>
+                        <input type="date" id="report-end">
+                        <button id="apply-period" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Aplicar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h5><i class="fas fa-car"></i> Veículos por Marca</h5>
+                        <canvas id="brand-chart"></canvas>
+                    </div>
+                    <div class="report-card">
+                        <h5><i class="fas fa-calendar"></i> Distribuição por Ano</h5>
+                        <canvas id="year-chart"></canvas>
+                    </div>
+                    <div class="report-card">
+                        <h5><i class="fas fa-chart-line"></i> Cadastros Mensais</h5>
+                        <canvas id="monthly-chart"></canvas>
+                    </div>
+                    <div class="report-card">
+                        <h5><i class="fas fa-user-plus"></i> Novos Usuários</h5>
+                        <canvas id="users-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="report-actions">
+                    <button id="export-pdf" class="btn">
+                        <i class="fas fa-file-pdf"></i> Exportar PDF
+                    </button>
+                    <button id="export-excel" class="btn">
+                        <i class="fas fa-file-excel"></i> Exportar Excel
+                    </button>
+                    <button id="print-report" class="btn">
+                        <i class="fas fa-print"></i> Imprimir Relatório
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="reports.js"></script>
+</body>
+</html>
