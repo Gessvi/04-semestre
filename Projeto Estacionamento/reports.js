@@ -1,12 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Verificar autenticação
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (!currentUser) {
         window.location.href = 'index.html';
         return;
     }
 
-    // Elementos do DOM
     const logoutBtn = document.getElementById('logout-btn');
     const currentUserElement = document.getElementById('current-user');
     const applyPeriodBtn = document.getElementById('apply-period');
@@ -14,46 +12,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const exportExcelBtn = document.getElementById('export-excel');
     const printReportBtn = document.getElementById('print-report');
 
-    // Mostrar usuário atual
     if (currentUserElement) {
         currentUserElement.textContent = currentUser.name;
     }
 
-    // Carregar dados
     const vehicles = JSON.parse(localStorage.getItem('vehicles')) || [];
     const users = JSON.parse(localStorage.getItem('users')) || [];
 
-    // Renderizar gráficos
     renderCharts();
 
-    // Aplicar filtro de período
     applyPeriodBtn.addEventListener('click', function() {
         renderCharts();
     });
 
-    // Exportar PDF
     exportPdfBtn.addEventListener('click', function() {
         alert('Exportando para PDF...');
-        // Implementação real exigiria uma biblioteca como jsPDF
     });
 
-    // Exportar Excel
     exportExcelBtn.addEventListener('click', function() {
         alert('Exportando para Excel...');
-        // Implementação real exigiria uma biblioteca como SheetJS
     });
 
-    // Imprimir relatório
     printReportBtn.addEventListener('click', function() {
         window.print();
     });
 
-    // Renderizar gráficos
     function renderCharts() {
         const startDate = document.getElementById('report-start').value;
         const endDate = document.getElementById('report-end').value;
 
-        // Filtrar veículos por período (se aplicável)
         let filteredVehicles = [...vehicles];
         if (startDate && endDate) {
             filteredVehicles = vehicles.filter(v => {
@@ -62,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Gráfico de veículos por marca
         const brands = {};
         filteredVehicles.forEach(v => {
             brands[v.brand] = (brands[v.brand] || 0) + 1;
@@ -80,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Gráfico de distribuição por ano
         const years = {};
         filteredVehicles.forEach(v => {
             years[v.year] = (years[v.year] || 0) + 1;
@@ -100,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Gráfico de cadastros mensais (exemplo simplificado)
         const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dec'];
         const monthlyData = months.map((_, i) => {
             return filteredVehicles.filter(v => {
@@ -123,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Gráfico de novos usuários (exemplo)
         const userMonths = months.map((_, i) => {
             return users.filter(u => {
                 const date = new Date(u.createdAt);
@@ -144,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Logout
     logoutBtn.addEventListener('click', function() {
         sessionStorage.removeItem('currentUser');
         window.location.href = 'index.html';
