@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cálculo Interativo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Cálculo Interativo</h1>
+        <p class="intro">Insira dois números e escolha a operação que deseja realizar.</p>
+
+        <div class="card">
+            <h2>Calculadora</h2>
+            <div class="calculator">
+                <div class="input-group">
+                    <div style="flex: 1;">
+                        <label for="num1">Primeiro Número:</label>
+                        <input type="number" id="num1" placeholder="Digite o primeiro número">
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="num2">Segundo Número:</label>
+                        <input type="number" id="num2" placeholder="Digite o segundo número">
+                    </div>
+                </div>
+                
+                <label>Selecione a operação:</label>
+                <div class="operation-buttons">
+                    <button onclick="calculate('add')">Somar (+)</button>
+                    <button onclick="calculate('subtract')">Subtrair (-)</button>
+                    <button onclick="calculate('multiply')">Multiplicar (×)</button>
+                    <button onclick="calculate('divide')">Dividir (÷)</button>
+                </div>
+                
+                <div id="calc-result" class="result" style="display: none;">
+                    Resultado aparecerá aqui
+                </div>
+            </div>
+        </div>
+            <br><h2>Formulário</h2>
+        <div class="form-section">
+            <h3>Documentação do Cálculo</h3>
+            <form id="maintenance-form">
+                <label for="date">Data:</label>
+                <input type="date" id="date" required>
+
+                <label for="error-type">Tipo de Operação:</label>
+                <input type="text" id="error-type" value="Cálculo Matemático" readonly>
+
+                <label for="description">Descrição do Cálculo:</label>
+                <textarea id="description" rows="4" required></textarea>
+
+                <label for="responsible">Responsável:</label>
+                <input type="text" id="responsible" required>
+
+                <div class="button-group">
+                    <button type="button" onclick="generateReport()">Gerar Relatório</button>
+                    <button type="button" onclick="clearForm()">Limpar Formulário</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
